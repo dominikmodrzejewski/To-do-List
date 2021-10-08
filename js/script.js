@@ -1,27 +1,37 @@
-const currentDay = document.querySelector('.current-day')
-const funFact = document.querySelector('.fun-fact')
+let todoInput // miejsce gdzie uzytkownik wpisuje tresc zadania
+let errorInfo // info o braku zadan / koniecznosci wpisania tekstu
+let addBtn // przycisk ADD - dodaje nowe elementy do listy
+let ulList // lista zadań, tagi UL
+let newTodo // nowe dodane LI, nowe zadanie
 
-const facts = [
-	'Krokodyl nie potrafi wystawić języka.',
-	'Każdy człowiek spędził około pół godziny jako pojedyncza komórka.',
-	'Dźwięk przemieszcza się 15 razy szybciej przez stal niż przez powietrze.',
-	'Leniwce potrzebują dwóch tygodni na strawienie jedzenia.',
-	'Goryle śpią nawet czternaście godzin dziennie.',
-	'Język kameleona jest dwukrotnie dłuższy od jego ciała.',
-	'Chińczycy w ciągu roku zużywają około 80 miliardów pałeczek.',
-	'Żeby wejść na Wieżę Eiffla trzeba pokonać aż 1710 stopni.'
-]
-
-const day  = new Date ()
-console.log(day);
-currentDay.textContent = day.toLocaleString('pl', {weekday: "long"})
-
-
-const showRandomFact = () => {
-	const number = Math.floor(Math.random() * (facts.length-1))
-	console.log(number)
-
-	funFact.textContent = facts[number]
+const main = () => {
+	prepareDOMElements()
+	prepareDOMEvents()
 }
 
-showRandomFact()
+const prepareDOMElements = () => {
+	todoInput = document.querySelector('.todo-input')
+	errorInfo = document.querySelector('.error-info')
+	addBtn = document.querySelector('.btn-add')
+	ulList = document.querySelector('.todolist ul')
+}
+
+const prepareDOMEvents = () => {
+	addBtn.addEventListener('click', addNewTodo)
+}
+
+const addNewTodo = () => {
+	if (todoInput.value !== '') {
+		newTodo = document.createElement('li')
+		newTodo.textContent = todoInput.value
+		ulList.append(newTodo)
+
+		todoInput.value = ''
+        errorInfo.textContent = ''
+	} else {
+		errorInfo.textContent = 'Wpisz tresc zadania'
+        
+	}
+}
+
+document.addEventListener('DOMContentLoaded', main)
